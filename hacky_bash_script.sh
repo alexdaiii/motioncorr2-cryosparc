@@ -18,27 +18,50 @@ args=("$@")
 new_args=()
 log_dir=""
 log_index="0"
+ADDITIONAL_ARGS=(
+    "-SplitSum 1"
+)
 
 for ((i=0; i<${#args[@]}; i++)); do
     if [[ "${args[i]}" == "-LogFile" ]]; then
         raw_path="${args[i+1]}"
         log_index=$(basename "$raw_path")
-        
+
         # Determine the parent directory
         parent_dir=$(dirname "$raw_path")
         if [[ "$parent_dir" != *"motioncor2_logs" ]]; then
             parent_dir="${parent_dir%/}/motioncor2_logs"
         fi
-        
+
         # Create a unique subdirectory for THIS specific movie index
         # e.g., /.../motioncor2_logs/0/
         log_dir="${parent_dir}/${log_index}"
         mkdir -p "$log_dir"
-        
+
         new_args+=("-LogDir" "$log_dir")
         ((i++))
     else
         new_args+=("${args[i]}")
+    fi
+done
+
+# --- LOGIC: ADD MISSING DEFAULTS ---
+for entry in "${ADDITIONAL_ARGS[@]}"; do
+    # Split the "tuple" into flag and value
+    read -r flag value <<< "$entry"
+
+    # Check if the flag already exists in the new_args array
+    exists=false
+    for current_arg in "${new_args[@]}"; do
+        if [[ "$current_arg" == "$flag" ]]; then
+            exists=true
+            break
+        fi
+    done
+
+    # If it doesn't exist, append both the flag and the value
+    if [ "$exists" = false ]; then
+        new_args+=("$flag" "$value")
     fi
 done
 
