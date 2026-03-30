@@ -30,3 +30,21 @@ Then, it will copy over the log files to where Cryosparc expects them to be, so 
 Cryosparc can read them and display the results properly. All other arguments
 are passed as is to MotionCorr2.
 
+## Instructions to run MotionCorr2 in Cryosparc:
+
+1. Create a conda environment using the provided `environment.yaml` file. You can do this by running the following command in your terminal:
+   ```
+   conda env create -f environment.yaml
+   ```
+   This will create a conda environment with all the necessary dependencies for MotionCorr2.
+   ```
+
+2. Download the MotionCorr2 executable from UCSF's website: [https://emcore.ucsf.edu/ucsf-software](https://emcore.ucsf.edu/ucsf-software)
+3. Modify the `hacky_bash_script.sh` script with the appropriate paths and arguments as described above.
+4. Make the script executable by running the following command in your terminal:
+   ```
+   chmod +x hacky_bash_script.sh
+   ```
+5. In Cryosparc, the Motion Correction job should be set up to use the `hacky_bash_script.sh` script as the executable for MotionCorr2. 
+   You can do this by going to the Motion Correction job settings 
+   and setting the `General Settings > Path to MotionCorr2 Executable` field to the path of the `hacky_bash_script.sh` script.
