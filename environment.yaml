@@ -1,0 +1,14 @@
+name: motioncorr2
+channels:
+  - conda-forge
+  - nvidia
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - conda-forge::libcufft-dev==11.4.1.4
+  - conda-forge::ncurses==6.5
+  - nvidia::cuda-toolkit==11.4.1
+  - conda-forge::libtiff==4.4.0
+  - nvidia::cuda-nvtx<=11.4.120
+  - nvidia::cuda==11.4.1
